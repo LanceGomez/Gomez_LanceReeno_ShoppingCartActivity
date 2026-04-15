@@ -13,3 +13,10 @@ The main logic was built using loops and conditional statements to handle user i
 
 Finally, the program computes the total cost, applies a discount when applicable, and displays a receipt along with the updated inventory after checkout.
 
+AI Usage in This Project
+
+AI was used as a guide while developing this program, especially for debugging and fixing errors. I used it to help identify issues in my code, such as input validation problems and logical errors in handling the shopping cart and stock updates.
+
+It also helped me understand why certain errors were happening and how to fix them properly. One specific example was when the peso sign (₱) was showing as a “?” in the console. I asked for help, and it suggested using UTF-8 encoding, which solved the problem.
+
+Aside from debugging, I also used AI to improve parts of my code and make sure it followed the given requirements. All suggestions were reviewed and adjusted to match my understanding before applying them to the final program.
