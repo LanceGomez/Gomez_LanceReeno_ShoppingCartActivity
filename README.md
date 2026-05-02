@@ -48,13 +48,6 @@ This project showcases the use of object-oriented programming principles through
 - Re-prompts invalid Y/N responses
 - Maintains smooth and error-free execution
 
----
-
-# Technologies Used
-
-- C#
-- .NET Console Application
-- Object-Oriented Programming (OOP)
 
 ---
 
