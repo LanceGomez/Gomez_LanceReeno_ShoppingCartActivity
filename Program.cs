@@ -45,7 +45,6 @@ class Program
 {
     static void Main()
     {
-        // Fix for peso sign display
         Console.OutputEncoding = Encoding.UTF8;
 
         Product[] products = new Product[]
@@ -56,7 +55,7 @@ class Program
             new Product { Id = 4, Name = "Cake", Price = 150, RemainingStock = 0 }
         };
 
-        CartItem[] cart = new CartItem[5];
+        CartItem[] cart = new CartItem[20];
         int cartCount = 0;
 
         while (true)
@@ -102,7 +101,6 @@ class Program
                 continue;
             }
 
-            // Check for duplicate product in cart
             bool found = false;
 
             for (int i = 0; i < cartCount; i++)
@@ -116,15 +114,8 @@ class Program
                 }
             }
 
-            // Add new product to cart
             if (!found)
             {
-                if (cartCount >= cart.Length)
-                {
-                    Console.WriteLine("Cart is full.");
-                    continue;
-                }
-
                 cart[cartCount] = new CartItem
                 {
                     Product = selectedProduct,
@@ -135,12 +126,10 @@ class Program
                 cartCount++;
             }
 
-            // Deduct stock
             selectedProduct.DeductStock(quantity);
 
             Console.WriteLine("Item added to cart.");
 
-            // Fixed Y/N validation
             string choice;
 
             while (true)
@@ -162,7 +151,43 @@ class Program
             }
         }
 
-        // Receipt
+        while (true)
+        {
+            Console.WriteLine("\n=== CART MENU ===");
+            Console.WriteLine("1. View Cart");
+            Console.WriteLine("2. Update Quantity");
+            Console.WriteLine("3. Remove Item");
+            Console.WriteLine("4. Clear Cart");
+            Console.WriteLine("5. Checkout");
+
+            Console.Write("Enter choice: ");
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    ViewCart(cart, cartCount);
+                    break;
+
+                case 2:
+                    UpdateCart(cart, cartCount);
+                    break;
+
+                case 3:
+                    RemoveItem(cart, ref cartCount);
+                    break;
+
+                case 4:
+                    ClearCart(ref cartCount);
+                    break;
+
+                case 5:
+                    goto CHECKOUT;
+            }
+        }
+
+    CHECKOUT:
+
         Console.WriteLine("\n=== RECEIPT ===");
 
         double grandTotal = 0;
@@ -170,15 +195,13 @@ class Program
         for (int i = 0; i < cartCount; i++)
         {
             Console.WriteLine(
-                $"{cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}"
-            );
+                $"{cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}");
 
             grandTotal += cart[i].Subtotal;
         }
 
         Console.WriteLine($"Grand Total: ₱{grandTotal:F2}");
 
-        // Discount
         double discount = 0;
 
         if (grandTotal >= 5000)
@@ -191,14 +214,68 @@ class Program
 
         Console.WriteLine($"Final Total: ₱{finalTotal:F2}");
 
-        // Updated stock
-        Console.WriteLine("\n=== UPDATED STOCK ===");
+        Console.WriteLine("\nThank you for shopping!");
+    }
 
-        foreach (var p in products)
+    static void ViewCart(CartItem[] cart, int cartCount)
+    {
+        Console.WriteLine("\n=== CART ===");
+
+        if (cartCount == 0)
         {
-            Console.WriteLine($"{p.Name}: {p.RemainingStock}");
+            Console.WriteLine("Cart is empty.");
+            return;
         }
 
-        Console.WriteLine("\nThank you for shopping!");
+        double total = 0;
+
+        for (int i = 0; i < cartCount; i++)
+        {
+            Console.WriteLine(
+                $"{i + 1}. {cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}");
+
+            total += cart[i].Subtotal;
+        }
+
+        Console.WriteLine($"Total: ₱{total:F2}");
+    }
+
+    static void UpdateCart(CartItem[] cart, int cartCount)
+    {
+        ViewCart(cart, cartCount);
+
+        Console.Write("Select item number: ");
+        int item = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter new quantity: ");
+        int newQty = int.Parse(Console.ReadLine());
+
+        cart[item - 1].Quantity = newQty;
+        cart[item - 1].UpdateSubtotal();
+
+        Console.WriteLine("Cart updated.");
+    }
+
+    static void RemoveItem(CartItem[] cart, ref int cartCount)
+    {
+        ViewCart(cart, cartCount);
+
+        Console.Write("Select item to remove: ");
+        int item = int.Parse(Console.ReadLine());
+
+        for (int i = item - 1; i < cartCount - 1; i++)
+        {
+            cart[i] = cart[i + 1];
+        }
+
+        cartCount--;
+
+        Console.WriteLine("Item removed.");
+    }
+
+    static void ClearCart(ref int cartCount)
+    {
+        cartCount = 0;
+        Console.WriteLine("Cart cleared.");
     }
 }
