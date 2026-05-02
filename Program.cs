@@ -351,3 +351,107 @@ foreach (var p in products)
 }
 
 Console.WriteLine("\nThank you for shopping!");
+
+// ADD THIS CLASS BELOW CartItem CLASS
+
+class OrderHistory
+{
+    public string ReceiptNumber;
+    public DateTime OrderDate;
+    public double FinalTotal;
+}
+
+
+// ADD THESE INSIDE Main()
+
+OrderHistory[] history = new OrderHistory[20];
+int historyCount = 0;
+
+int receiptCounter = 1;
+
+
+// REPLACE YOUR OLD RECEIPT SECTION WITH THIS
+
+Console.WriteLine("\n=== RECEIPT ===");
+
+string receiptNo = receiptCounter.ToString("D4");
+
+Console.WriteLine($"Receipt No: {receiptNo}");
+Console.WriteLine($"Date: {DateTime.Now}");
+
+double grandTotal = 0;
+
+for (int i = 0; i < cartCount; i++)
+{
+    Console.WriteLine(
+        $"{cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}");
+
+    grandTotal += cart[i].Subtotal;
+}
+
+Console.WriteLine($"Grand Total: ₱{grandTotal:F2}");
+
+double discount = 0;
+
+if (grandTotal >= 5000)
+{
+    discount = grandTotal * 0.10;
+    Console.WriteLine($"Discount (10%): ₱{discount:F2}");
+}
+
+double finalTotal = grandTotal - discount;
+
+Console.WriteLine($"Final Total: ₱{finalTotal:F2}");
+
+double payment;
+
+while (true)
+{
+    Console.Write("Enter payment: ");
+
+    if (!double.TryParse(Console.ReadLine(), out payment))
+    {
+        Console.WriteLine("Invalid payment.");
+        continue;
+    }
+
+    if (payment < finalTotal)
+    {
+        Console.WriteLine("Insufficient payment.");
+        continue;
+    }
+
+    break;
+}
+
+double change = payment - finalTotal;
+
+
+// SAVE ORDER HISTORY
+
+history[historyCount] = new OrderHistory
+{
+    ReceiptNumber = receiptNo,
+    OrderDate = DateTime.Now,
+    FinalTotal = finalTotal
+};
+
+historyCount++;
+receiptCounter++;
+
+
+Console.WriteLine($"Payment: ₱{payment:F2}");
+Console.WriteLine($"Change: ₱{change:F2}");
+
+
+// DISPLAY ORDER HISTORY
+
+Console.WriteLine("\n=== ORDER HISTORY ===");
+
+for (int i = 0; i < historyCount; i++)
+{
+    Console.WriteLine(
+        $"Receipt #{history[i].ReceiptNumber} - " +
+        $"Final Total: ₱{history[i].FinalTotal:F2} - " +
+        $"{history[i].OrderDate}");
+}
