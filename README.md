@@ -1,22 +1,134 @@
-# Gomez_LanceReeno_ShoppingCartActivity
-This project is a console-based Shopping Cart System developed in C#. It simulates a simple café/store where users can browse products, select items, and add them to a cart while considering available stock.
+# Gomez_LanceReeno_EnhancedShoppingCartActivity
+# Enhanced Shopping Cart System
 
-The system allows users to input product choices and quantities, automatically calculates totals, and updates inventory in real time. It also generates a receipt with the overall cost and applies a discount for qualifying purchases.
+A console-based shopping cart application developed in C#. This program simulates a realistic shopping and checkout process with features such as cart handling, inventory tracking, payment verification, receipt printing, and transaction history recording.
 
-This program demonstrates the use of basic C# concepts such as classes, objects, arrays, loops, and input validation in creating a functional and interactive shopping experience.
+## Overview
 
-The process began by designing a Product class to store item details such as ID, name, price, and remaining stock, along with methods for displaying products and handling stock operations.
+This project showcases the use of object-oriented programming principles through the implementation of classes, objects, arrays, loops, methods, and input validation. The system is designed to provide an organized shopping workflow while monitoring product inventory and customer transactions.
 
-An array of product objects was then created to serve as the store menu. A separate CartItem class was implemented to manage selected items, including their quantity and subtotal.
+---
 
-The main logic was built using loops and conditional statements to handle user input, validate entries, and ensure stock availability. Features such as preventing duplicate cart entries, updating stock in real time, and limiting cart size were also added.
+# Key Features
 
-Finally, the program computes the total cost, applies a discount when applicable, and displays a receipt along with the updated inventory after checkout.
+## Product Handling
+- Displays available products with corresponding prices and stock
+- Prevents users from purchasing unavailable quantities
+- Automatically decreases stock after successful checkout
 
-AI Usage in This Project
+## Cart Features
+- Add products to cart
+- Display cart contents and totals
+- Modify product quantities
+- Remove products from cart
+- Empty the cart
 
-AI was used as a guide while developing this program, especially for debugging and fixing errors. I used it to help identify issues in my code, such as input validation problems and logical errors in handling the shopping cart and stock updates.
+## Checkout Process
+- Produces a complete receipt
+- Applies automatic discounts for purchases above ₱5000
+- Verifies customer payment input
+- Computes the customer’s change
 
-It also helped me understand why certain errors were happening and how to fix them properly. One specific example was when the peso sign (₱) was showing as a “?” in the console. I asked for help, and it suggested using UTF-8 encoding, which solved the problem.
+## Receipt Details
+- Generates receipt numbers
+- Displays transaction date and time
+- Shows purchased products and total costs
+- Includes payment amount and change
 
-Aside from debugging, I also used AI to improve parts of my code and make sure it followed the given requirements. All suggestions were reviewed and adjusted to match my understanding before applying them to the final program.
+## Inventory Monitoring
+- Updates product inventory instantly
+- Displays low-stock notifications for products with stock less than or equal to 5
+
+## Transaction History
+- Saves completed orders during runtime
+- Displays receipt number, transaction date, and total amount
+
+## Input Validation
+- Prevents invalid numeric entries
+- Re-prompts invalid Y/N responses
+- Maintains smooth and error-free execution
+
+---
+
+# Technologies Used
+
+- C#
+- .NET Console Application
+- Object-Oriented Programming (OOP)
+
+---
+
+# Sample Output
+
+```text
+=== STORE MENU ===
+
+1. Coffee - ₱120.00 (Stock: 10)
+2. Pasta - ₱250.00 (Stock: 5)
+3. Salad - ₱180.00 (Stock: 8)
+4. Cake - ₱150.00 (Stock: 3)
+
+Enter product number: 2
+Enter quantity: 3
+
+Item added to cart.
+
+Add another item? (Y/N): Y
+
+Enter product number: 1
+Enter quantity: 2
+
+Item added to cart.
+
+Add another item? (Y/N): N
+
+
+=== CART MENU ===
+1. View Cart
+2. Update Quantity
+3. Remove Item
+4. Clear Cart
+5. Checkout
+
+Enter choice: 5
+
+
+=== RECEIPT ===
+
+Receipt No: 0002
+Date: May 02, 2026 10:45 PM
+
+Pasta x3 = ₱750.00
+Coffee x2 = ₱240.00
+
+Grand Total: ₱990.00
+Discount: ₱0.00
+Final Total: ₱990.00
+
+Enter payment: 1200
+
+Payment: ₱1200.00
+Change: ₱210.00
+
+
+=== ORDER HISTORY ===
+
+Receipt #0002 - Final Total: ₱990.00 - May 02, 2026 10:45 PM
+
+
+=== LOW STOCK ALERT ===
+
+Pasta has only 2 stocks left.
+
+Thank you for shopping!
+```
+
+---
+
+# AI Usage
+
+AI tools were utilized to:
+- Troubleshoot and enhance program logic
+- Improve validation and cart operations
+- Refine code readability and organization
+- Assist with receipt generation and transaction history features
