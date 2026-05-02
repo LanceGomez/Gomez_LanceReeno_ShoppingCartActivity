@@ -279,3 +279,75 @@ class Program
         Console.WriteLine("Cart cleared.");
     }
 }
+// REPLACE ONLY THE RECEIPT PART IN COMMIT 1 WITH THIS
+
+Console.WriteLine("\n=== RECEIPT ===");
+
+double grandTotal = 0;
+
+for (int i = 0; i < cartCount; i++)
+{
+    Console.WriteLine(
+        $"{cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}");
+
+    grandTotal += cart[i].Subtotal;
+}
+
+Console.WriteLine($"Grand Total: ₱{grandTotal:F2}");
+
+double discount = 0;
+
+if (grandTotal >= 5000)
+{
+    discount = grandTotal * 0.10;
+    Console.WriteLine($"Discount (10%): ₱{discount:F2}");
+}
+
+double finalTotal = grandTotal - discount;
+
+Console.WriteLine($"Final Total: ₱{finalTotal:F2}");
+
+double payment;
+
+while (true)
+{
+    Console.Write("Enter payment: ");
+
+    if (!double.TryParse(Console.ReadLine(), out payment))
+    {
+        Console.WriteLine("Invalid payment.");
+        continue;
+    }
+
+    if (payment < finalTotal)
+    {
+        Console.WriteLine("Insufficient payment.");
+        continue;
+    }
+
+    break;
+}
+
+double change = payment - finalTotal;
+
+Console.WriteLine($"Payment: ₱{payment:F2}");
+Console.WriteLine($"Change: ₱{change:F2}");
+
+Console.WriteLine("\n=== UPDATED STOCK ===");
+
+foreach (var p in products)
+{
+    Console.WriteLine($"{p.Name}: {p.RemainingStock}");
+}
+
+Console.WriteLine("\nLOW STOCK ALERT:");
+
+foreach (var p in products)
+{
+    if (p.RemainingStock <= 5)
+    {
+        Console.WriteLine($"{p.Name} has only {p.RemainingStock} stocks left.");
+    }
+}
+
+Console.WriteLine("\nThank you for shopping!");
