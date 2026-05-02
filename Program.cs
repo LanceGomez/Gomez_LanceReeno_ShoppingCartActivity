@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 
 class Product
@@ -45,7 +45,7 @@ class Program
 {
     static void Main()
     {
-        // ✅ Fix for peso sign display
+        // Fix for peso sign display
         Console.OutputEncoding = Encoding.UTF8;
 
         Product[] products = new Product[]
@@ -62,6 +62,7 @@ class Program
         while (true)
         {
             Console.WriteLine("\n=== STORE MENU ===");
+
             foreach (var p in products)
             {
                 p.DisplayProduct();
@@ -70,7 +71,9 @@ class Program
             Console.Write("\nEnter product number: ");
             string prodInput = Console.ReadLine();
 
-            if (!int.TryParse(prodInput, out int prodChoice) || prodChoice < 1 || prodChoice > products.Length)
+            if (!int.TryParse(prodInput, out int prodChoice) ||
+                prodChoice < 1 ||
+                prodChoice > products.Length)
             {
                 Console.WriteLine("Invalid product number.");
                 continue;
@@ -101,6 +104,7 @@ class Program
 
             // Check for duplicate product in cart
             bool found = false;
+
             for (int i = 0; i < cartCount; i++)
             {
                 if (cart[i].Product.Id == selectedProduct.Id)
@@ -112,6 +116,7 @@ class Program
                 }
             }
 
+            // Add new product to cart
             if (!found)
             {
                 if (cartCount >= cart.Length)
@@ -125,34 +130,57 @@ class Program
                     Product = selectedProduct,
                     Quantity = quantity
                 };
+
                 cart[cartCount].UpdateSubtotal();
                 cartCount++;
             }
 
+            // Deduct stock
             selectedProduct.DeductStock(quantity);
 
             Console.WriteLine("Item added to cart.");
 
-            Console.Write("Add another item? (Y/N): ");
-            string choice = Console.ReadLine().ToUpper();
+            // Fixed Y/N validation
+            string choice;
+
+            while (true)
+            {
+                Console.Write("Add another item? (Y/N): ");
+                choice = Console.ReadLine().ToUpper();
+
+                if (choice == "Y" || choice == "N")
+                {
+                    break;
+                }
+
+                Console.WriteLine("Invalid input. Please enter Y or N only.");
+            }
 
             if (choice == "N")
+            {
                 break;
+            }
         }
 
         // Receipt
         Console.WriteLine("\n=== RECEIPT ===");
+
         double grandTotal = 0;
 
         for (int i = 0; i < cartCount; i++)
         {
-            Console.WriteLine($"{cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}");
+            Console.WriteLine(
+                $"{cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}"
+            );
+
             grandTotal += cart[i].Subtotal;
         }
 
         Console.WriteLine($"Grand Total: ₱{grandTotal:F2}");
 
+        // Discount
         double discount = 0;
+
         if (grandTotal >= 5000)
         {
             discount = grandTotal * 0.10;
@@ -160,10 +188,12 @@ class Program
         }
 
         double finalTotal = grandTotal - discount;
+
         Console.WriteLine($"Final Total: ₱{finalTotal:F2}");
 
         // Updated stock
         Console.WriteLine("\n=== UPDATED STOCK ===");
+
         foreach (var p in products)
         {
             Console.WriteLine($"{p.Name}: {p.RemainingStock}");
